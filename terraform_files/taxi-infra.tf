@@ -14,10 +14,10 @@ data "aws_subnets" "default" {
 }
 
 resource "aws_instance" "ansible" {
-    ami                     = "ami-0c398cb65a93047f2"
-    instance_type           = "t2.micro"
-    key_name                = "taxi"
-    vpc_security_group_ids  = [aws_security_group.demo-sg.id]
+    ami                     = "ami-0030e4319cbf4dbf2"
+    instance_type           = "t3.micro"
+    key_name                = "Taxi"
+    vpc_security_group_ids  = [aws_security_group.demo-sg-new.id]
     //subnet_id               = "subnet-077471d3c705ea769"
     tags                    = {
         Name      = "ansible"
@@ -27,10 +27,10 @@ resource "aws_instance" "ansible" {
 
 
 resource "aws_instance" "jenkins_master" {
-  ami                        = "ami-0c398cb65a93047f2"
-  instance_type              = "t2.medium"
-  key_name                   = "taxi"
-  vpc_security_group_ids     = [aws_security_group.demo-sg.id]
+  ami                        = "ami-0030e4319cbf4dbf2"
+  instance_type              = "c7i-flex.large"
+  key_name                   = "Taxi"
+  vpc_security_group_ids     = [aws_security_group.demo-sg-new.id]
   
   tags                       = {
     Name = "jenkins-master"
@@ -40,10 +40,10 @@ resource "aws_instance" "jenkins_master" {
 }
 
 resource "aws_instance" "jenkins_slave" {
-  ami                        = "ami-0c398cb65a93047f2"
-  instance_type              = "t2.medium"
-  key_name                   = "taxi"
-  vpc_security_group_ids     = [aws_security_group.demo-sg.id]
+  ami                        = "ami-0030e4319cbf4dbf2"
+  instance_type              = "c7i-flex.large"
+  key_name                   = "Taxi"
+  vpc_security_group_ids     = [aws_security_group.demo-sg-new.id]
   
   tags                       = {
     Name = "jenkins-slave"
@@ -52,8 +52,8 @@ resource "aws_instance" "jenkins_slave" {
 }
 
 
-resource "aws_security_group" "demo-sg" {
-  name        = "demo-sg"
+resource "aws_security_group" "demo-sg-new" {
+  name        = "demo-sg-new"
   description = "SSH Access"
 
   
@@ -90,13 +90,6 @@ resource "aws_security_group" "demo-sg" {
     description      = "http  port"
     from_port        = 80
     to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    }
-    ingress {
-    description      = "Prometheus  port"
-    from_port        = 9090
-    to_port          = 9090
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     }
